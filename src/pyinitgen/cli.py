@@ -5,13 +5,43 @@ import os
 from pathlib import Path
 
 EXCLUDE_DIRS = {
+    # VCS
     ".git",
+    ".hg",
+    ".svn",
+    
+    # Python Caches/Tools
     "__pycache__",
     ".venv",
-    "node_modules",
+    "venv",
+    "env",
     ".mypy_cache",
     ".pytest_cache",
     ".ruff_cache",
+    
+    # JS/Node
+    "node_modules",
+    
+    # IDE / OS
+    ".vscode",
+    ".idea",
+    ".DS_Store",
+    
+    # Build / Dist
+    "build",
+    "dist",
+    "eggs",
+    ".egg-info",
+    
+    # Docs
+    "docs",
+    "site",
+    
+    # Other tools
+    ".github",
+    
+    # Project-specific (from your logs)
+    "all_create_dump_rollbacks",
 }
 
 
