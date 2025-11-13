@@ -40,19 +40,57 @@ EXCLUDE_DIRS = {
     # Other tools
     ".github",
     
-    # Project-specific (from your logs)
-    "all_create_dump_rollbacks",
+    # Python test/build artifacts
+    "htmlcov",
+    ".tox",
+    ".nox",
+    "pip-wheel-metadata",
+    
+    # Temporary/data directories
+    "tmp",
+    "temp",
+    "data",
+    "assets",
+    "static",
+    "media",
 }
+
+IGNORE_FILE_NAME = ".pyinitgenignore"
+
+
+def load_ignore_patterns(base_dir: Path) -> set[str]:
+    """
+    Loads ignore patterns from a .pyinitgenignore file in the base_dir.
+    """
+    ignore_file_path = base_dir / IGNORE_FILE_NAME
+    if not ignore_file_path.is_file():
+        return set()
+
+    patterns = set()
+    with open(ignore_file_path, "r") as f:
+        for line in f:
+            line = line.strip()
+            if line and not line.startswith("#"):
+                patterns.add(line)
+    return patterns
 
 
 def create_inits(
-    base_dir: Path, dry_run: bool = False, verbose: bool = False, use_emoji: bool = True
+    base_dir: Path,
+    dry_run: bool = False,
+    verbose: bool = False,
+    use_emoji: bool = True,
+    init_content: str = "",
 ):
     created_count = 0
     scanned_dirs = 0
+    
+    user_excludes = load_ignore_patterns(base_dir)
+    all_excludes = EXCLUDE_DIRS.union(user_excludes)
+
     for root, dirs, files in os.walk(base_dir):
         # Filter out unwanted dirs
-        dirs[:] = [d for d in dirs if d not in EXCLUDE_DIRS]
+        dirs[:] = [d for d in dirs if d not in all_excludes]
         scanned_dirs += 1
 
         if verbose:
@@ -64,7 +102,9 @@ def create_inits(
                 logging.info(f"[DRY-RUN] Would create {init_file}")
             else:
                 try:
-                    init_file.touch(mode=0o644, exist_ok=True)
+                    with open(init_file, "w") as f:
+                        f.write(init_content)
+                    init_file.chmod(0o644) # Set permissions after writing
                     logging.info(f"Created {init_file}")
                     created_count += 1
                 except Exception as e:
@@ -105,6 +145,15 @@ def main():
     parser.add_argument(
         "--no-emoji", action="store_true", help="Disable emoji in output"
     )
+    parser.add_argument(
+        "--init-content",
+        type=str,
+        default="",
+        help="Content to write to new __init__.py files (default: empty file)",
+    )
+    parser.add_argument(
+        "--version", action="version", version=f"%(prog)s 1.0.0", help="Show program's version number and exit"
+    )
 
     args = parser.parse_args()
 
@@ -122,6 +171,7 @@ def main():
         dry_run=args.dry_run,
         verbose=args.verbose,
         use_emoji=not args.no_emoji,
+        init_content=args.init_content,
     )
     raise SystemExit(exit_code)
 
