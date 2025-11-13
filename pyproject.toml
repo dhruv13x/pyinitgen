@@ -2,12 +2,11 @@
 requires = ["setuptools>=68.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
-[tool.setuptools.dynamic]
-version = {attr = "pyinitgen.__version__"}
+
 
 [project]
 name = "pyinitgen"
-dynamic = ["version"]
+version = "1.0.0"
 description = "Auto-generate missing __init__.py files to fix Python import issues and ensure proper module discovery."
 readme = "README.md"
 requires-python = ">=3.8"
