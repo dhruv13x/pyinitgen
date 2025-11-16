@@ -1,8 +1,11 @@
 #!/usr/bin/env python3
+# src/pyinitgen/cli.py
+
 import argparse
 import logging
 import os
 from pathlib import Path
+from .banner import print_logo
 
 EXCLUDE_DIRS = {
     # VCS
@@ -124,6 +127,7 @@ def create_inits(
 
 
 def main():
+    print_logo()
     parser = argparse.ArgumentParser(
         description="Ensure all directories have __init__.py files."
     )
