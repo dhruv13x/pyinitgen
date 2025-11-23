@@ -6,7 +6,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "pyinitgen"
-version = "2.0.0"
+version = "3.0.0"
 description = "Auto-generate missing __init__.py files to fix Python import issues and ensure proper module discovery."
 readme = "README.md"
 requires-python = ">=3.8"
@@ -72,6 +72,27 @@ python_version = "3.11"
 ignore_missing_imports = true
 
 [tool.pytest.ini_options]
-addopts = ["-ra", "-v", "--tb=short"]
 testpaths = ["tests"]
 pythonpath = ["src"]
+
+addopts = [
+    "-ra",                # Show extra test summary info
+    "-v",                 # Verbose output
+    "--tb=short",         # Short tracebacks
+    "--cov=src/pyinitgen",   # Measure coverage only for package
+    "--cov-report=term-missing:skip-covered",  # Show missing lines
+    "--cov-report=html",  # HTML coverage report
+    "--cov-fail-under=90" # Require minimum coverage
+]
+
+log_cli = true
+log_cli_level = "INFO"
+
+
+[tool.coverage.run]
+branch = true
+source = ["src/pyinitgen"]
+
+[tool.coverage.report]
+show_missing = true
+skip_covered = true
