@@ -5,6 +5,8 @@ from rich.text import Text
 import math
 import random
 import os
+import sys
+import colorsys
 
 console = Console()
 
@@ -13,7 +15,7 @@ def lerp(a, b, t):
 
 def blend(c1, c2, t):
     # Gemini gamma + wave shaping
-    t = t ** 1.47
+    t = t**1.47
     t = 0.82 * t + 0.08 * math.sin(3.2 * t)
     r = int(lerp(c1[0], c2[0], t))
     g = int(lerp(c1[1], c2[1], t))
@@ -21,15 +23,6 @@ def blend(c1, c2, t):
     return f"#{r:02x}{g:02x}{b:02x}"
 
 def print_logo():
-    import os
-    import random
-    import sys
-    import colorsys
-    import math
-    from rich.console import Console
-    from rich.text import Text
-
-    console = Console()
 
     # --- logo (unchanged) ---
     logo = r"""     
@@ -46,6 +39,7 @@ def print_logo():
  █████     ░░██████                                   ░░██████                     
 ░░░░░       ░░░░░░                                     ░░░░░░                      
 """.strip().split("\n")
+
 
     # helper math functions (unchanged)
     def lerp(a, b, t):
