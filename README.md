@@ -26,9 +26,6 @@
 <!-- License -->
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-<!-- Docs -->
-[![Docs](https://img.shields.io/badge/docs-latest-brightgreen.svg)](https://your-docs-link)
-
 </div>
 
 ---
@@ -56,15 +53,17 @@ CI environments ensuring package integrity
 
 🚀 Features
 
-Feature	Description
-
-📂 Recursive scan	Walks directory tree intelligently
-🛠️ Auto-creates __init__.py	Only where missing — safe & precise
-🧠 Excludes system/runtime dirs	__pycache__, .git, .venv, etc.
-👀 Dry-Run Mode	See what will be created first
-🎯 Project-safe	Avoids touching non-Python folders
-✨ Emoji status (optional)	Fancy terminal UX
-🔒 Zero destructive actions	Never overwrites content
+| Feature                          | Description                                                              |
+| -------------------------------- | ------------------------------------------------------------------------ |
+| 📂 **Recursive Scan**            | Walks the directory tree intelligently to find all Python modules.       |
+| 🛠️ **Auto-creates `__init__.py`** | Creates `__init__.py` files only where they are missing.                 |
+| 🧠 **Smart Exclusions**          | Ignores common system and runtime directories by default.                |
+| 📝 **Customized Ignores**        | Supports a `.pyinitgenignore` file to add your own exclusion rules.      |
+| ✍️ **Custom Content**             | Lets you write custom content to newly created `__init__.py` files.      |
+| 👀 **Dry-Run Mode**              | Preview which `__init__.py` files will be created without writing them.  |
+| 🎯 **Project-safe**              | Avoids touching non-Python folders and respects your project structure.  |
+| ✨ **Emoji Status**               | Provides an optional, fancy terminal UX with emoji status indicators.    |
+| 🔒 **Zero Destructive Actions**  | Never overwrites existing files or content.                              |
 
 
 
@@ -77,31 +76,36 @@ pip install pyinitgen
 
 ---
 
-🧠 Usage
+⚙️ Configuration & Advanced Usage
 
-✅ Default — scan current directory
+### CLI Arguments
 
-pyinitgen
+| Argument | Short | Description | Default |
+|---|---|---|---|
+| `--base-dir <path>` | | Base directory to scan. | `.` |
+| `--dry-run` | | Preview changes without writing to disk. | `false` |
+| `--quiet` | `-q` | Suppress all non-error output. | `false` |
+| `--verbose` | `-v` | Show all scanned directories. | `false` |
+| `--no-emoji` | | Disable emoji in the final output. | `false` |
+| `--init-content "..."` | | Custom content to write to new `__init__.py` files. | `""` |
+| `--version` | | Show the program's version number and exit. | |
 
-📁 Scan a specific project root
+### Customizing Exclusions with `.pyinitgenignore`
 
-pyinitgen --base-dir src/
+To exclude specific directories from being scanned, create a `.pyinitgenignore` file in your project's root directory. Each line in this file is treated as a pattern to be excluded.
 
-🔍 Preview changes (no write)
+> **Note:** This feature is ideal for excluding auto-generated folders, data directories, or any other project-specific directories that should not be treated as Python packages.
 
-pyinitgen --dry-run
+**Example `.pyinitgenignore`:**
 
-🗣️ Verbose mode
+```
+# .pyinitgenignore
+# Exclude the entire 'assets' directory
+assets
 
-pyinitgen --verbose
-
-🤐 Quiet mode
-
-pyinitgen --quiet
-
-🛑 Disable emojis
-
-pyinitgen --no-emoji
+# Exclude any directories named 'legacy'
+legacy
+```
 
 
 ---
@@ -153,6 +157,30 @@ Use in CI to guarantee package consistency:
 
 pyinitgen --dry-run
 
+
+---
+
+🏗️ Architecture
+
+The project is structured as a standard Python CLI application:
+
+```
+src/
+└── pyinitgen/
+    ├── __init__.py
+    ├── banner.py   # Renders the ASCII logo
+    └── cli.py      # Core logic and CLI argument parsing
+```
+
+The core logic resides in `cli.py`, which performs the directory scan and `__init__.py` file creation. The `banner.py` module is a purely cosmetic addition to improve the user experience.
+
+---
+
+🗺️ Roadmap
+
+- [ ] Add support for customizing the default exclusion list via a configuration file.
+- [ ] Implement a `--watch` mode to automatically create `__init__.py` files as new directories are created.
+- [ ] Add a `--check` flag that will exit with a non-zero status code if any `__init__.py` files are missing, but will not create them.
 
 ---
 
