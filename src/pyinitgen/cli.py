@@ -156,7 +156,7 @@ def main():
         help="Content to write to new __init__.py files (default: empty file)",
     )
     parser.add_argument(
-        "--version", action="version", version=f"%(prog)s 1.0.0", help="Show program's version number and exit"
+        "--version", action="version", version=f"%(prog)s 3.0.1", help="Show program's version number and exit"
     )
 
     args = parser.parse_args()
