@@ -1,6 +1,6 @@
 # tests/test_banner.py
 
-
+import os
 import pytest
 from unittest.mock import MagicMock, patch
 from rich.text import Text
@@ -41,6 +41,65 @@ def test_print_logo():
         # Check that it printed multiple times (lines of logo + footer)
         assert mock_console.print.call_count > 1
 
-        # Verify the footer
-        args, kwargs = mock_console.print.call_args
-        assert "[dim]📂 Automated __init__.py generator for Python packages.[/dim]" in args[0]
+        # Verify the footer by checking the last call
+        last_call_args, last_call_kwargs = mock_console.print.call_args_list[-1]
+        expected_footer = "[dim]🐍 Automatically generate __init__.py files for Python packages.[/dim]\\n"
+        assert last_call_args[0] == expected_footer
+
+def test_print_logo_procedural_palette():
+    """
+    Test that print_logo can generate a procedural palette
+    when no fixed palette is specified.
+    """
+    with patch("pyinitgen.banner.console") as mock_console:
+        # Unset the env var to ensure procedural generation
+        if "CREATE_DUMP_PALETTE" in os.environ:
+            del os.environ["CREATE_DUMP_PALETTE"]
+
+        print_logo()
+        assert mock_console.print.called
+        assert mock_console.print.call_count > 1
+
+def test_print_logo_with_fixed_palette():
+    """
+    Test that print_logo uses a fixed palette when the env var is set.
+    """
+    with patch("pyinitgen.banner.console") as mock_console:
+        os.environ["CREATE_DUMP_PALETTE"] = "0"
+        print_logo()
+        assert mock_console.print.called
+        assert mock_console.print.call_count > 1
+
+def test_print_logo_with_invalid_palette_fallback():
+    """
+    Test that print_logo falls back to procedural generation
+    if an invalid palette index is provided.
+    """
+    with patch("pyinitgen.banner.console") as mock_console:
+        os.environ["CREATE_DUMP_PALETTE"] = "invalid"
+        print_logo()
+        assert mock_console.print.called
+        assert mock_console.print.call_count > 1
+
+def test_blend_edge_cases():
+    """
+    Test the blend function with edge-case t values.
+    """
+    c1 = (0, 0, 0)
+    c2 = (255, 255, 255)
+    assert blend(c1, c2, 0.0) == "#000000"
+    # A t-value of 1.0 doesn't produce pure white due to the wave shaping function.
+    # We'll check that it's a valid hex color, but not pure white.
+    result = blend(c1, c2, 1.0)
+    assert result.startswith("#")
+    assert result != "#ffffff"
+
+def test_print_logo_with_large_invalid_palette_fallback():
+    """
+    Test fallback for an out-of-range integer palette index.
+    """
+    with patch("pyinitgen.banner.console") as mock_console:
+        os.environ["CREATE_DUMP_PALETTE"] = "9999"
+        print_logo()
+        assert mock_console.print.called
+        assert mock_console.print.call_count > 1
