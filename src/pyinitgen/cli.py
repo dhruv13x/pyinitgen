@@ -6,76 +6,8 @@ import logging
 import os
 from pathlib import Path
 from .banner import print_logo
-
-EXCLUDE_DIRS = {
-    # VCS
-    ".git",
-    ".hg",
-    ".svn",
-    
-    # Python Caches/Tools
-    "__pycache__",
-    ".venv",
-    "venv",
-    "env",
-    ".mypy_cache",
-    ".pytest_cache",
-    ".ruff_cache",
-    
-    # JS/Node
-    "node_modules",
-    
-    # IDE / OS
-    ".vscode",
-    ".idea",
-    ".DS_Store",
-    
-    # Build / Dist
-    "build",
-    "dist",
-    "eggs",
-    ".egg-info",
-    
-    # Docs
-    "docs",
-    "site",
-    
-    # Other tools
-    ".github",
-    
-    # Python test/build artifacts
-    "htmlcov",
-    ".tox",
-    ".nox",
-    "pip-wheel-metadata",
-    
-    # Temporary/data directories
-    "tmp",
-    "temp",
-    "data",
-    "assets",
-    "static",
-    "media",
-}
-
-IGNORE_FILE_NAME = ".pyinitgenignore"
-
-
-def load_ignore_patterns(base_dir: Path) -> set[str]:
-    """
-    Loads ignore patterns from a .pyinitgenignore file in the base_dir.
-    """
-    ignore_file_path = base_dir / IGNORE_FILE_NAME
-    if not ignore_file_path.is_file():
-        return set()
-
-    patterns = set()
-    with open(ignore_file_path, "r") as f:
-        for line in f:
-            line = line.strip()
-            if line and not line.startswith("#"):
-                patterns.add(line)
-    return patterns
+from .config import EXCLUDE_DIRS, IGNORE_FILE_NAME
+from .ignores import load_ignore_patterns
 
 
 def create_inits(

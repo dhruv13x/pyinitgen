@@ -6,7 +6,8 @@ from unittest.mock import patch
 
 import pytest
 
-from pyinitgen.cli import create_inits, EXCLUDE_DIRS
+from pyinitgen.cli import create_inits
+from pyinitgen.config import EXCLUDE_DIRS
 
 
 @pytest.fixture
