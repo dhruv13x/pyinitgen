@@ -61,6 +61,8 @@ CI environments ensuring package integrity
 | 📝 **Customized Ignores**        | Supports a `.pyinitgenignore` file to add your own exclusion rules.      |
 | ✍️ **Custom Content**             | Lets you write custom content to newly created `__init__.py` files.      |
 | 👀 **Dry-Run Mode**              | Preview which `__init__.py` files will be created without writing them.  |
+| ✅ **Check Flag**                | Exit with error if files are missing (great for CI).                     |
+| ⚙️ **Config File**               | Configure via `pyproject.toml` or `.pyinitgen.toml`.                    |
 | 🎯 **Project-safe**              | Avoids touching non-Python folders and respects your project structure.  |
 | ✨ **Emoji Status**               | Provides an optional, fancy terminal UX with emoji status indicators.    |
 | 🔒 **Zero Destructive Actions**  | Never overwrites existing files or content.                              |
@@ -88,7 +90,26 @@ pip install pyinitgen
 | `--verbose` | `-v` | Show all scanned directories. | `false` |
 | `--no-emoji` | | Disable emoji in the final output. | `false` |
 | `--init-content "..."` | | Custom content to write to new `__init__.py` files. | `""` |
+| `--check` | | Check for missing `__init__.py` files without creating them. Exits with 1 if missing. | `false` |
 | `--version` | | Show the program's version number and exit. | |
+
+### Customizing Exclusions with Configuration Files
+
+You can configure exclusions in `pyproject.toml` or `.pyinitgen.toml`.
+
+**Example `pyproject.toml`:**
+
+```toml
+[tool.pyinitgen]
+exclude_dirs = ["legacy", "assets"]
+```
+
+**Example `.pyinitgen.toml`:**
+
+```toml
+[tool.pyinitgen]
+exclude_dirs = ["legacy", "assets"]
+```
 
 ### Customizing Exclusions with `.pyinitgenignore`
 
@@ -178,9 +199,9 @@ The core logic resides in `cli.py`, which performs the directory scan and `__ini
 
 🗺️ Roadmap
 
-- [ ] Add support for customizing the default exclusion list via a configuration file.
+- [x] Add support for customizing the default exclusion list via a configuration file.
+- [x] Add a `--check` flag that will exit with a non-zero status code if any `__init__.py` files are missing, but will not create them.
 - [ ] Implement a `--watch` mode to automatically create `__init__.py` files as new directories are created.
-- [ ] Add a `--check` flag that will exit with a non-zero status code if any `__init__.py` files are missing, but will not create them.
 
 ---
 

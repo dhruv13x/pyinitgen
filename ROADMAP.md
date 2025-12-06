@@ -14,8 +14,8 @@ A visionary, integration-oriented plan that categorizes features from **"Core Es
 - [x] **Customized Ignores**: Supports a `.pyinitgenignore` file to add your own exclusion rules.
 - [x] **Custom Content**: Lets you write custom content to newly created `__init__.py` files.
 - [x] **Dry-Run Mode**: Preview which `__init__.py` files will be created without writing them.
-- [ ] **Configuration File**: Add support for customizing the default exclusion list and other settings via a `pyproject.toml` or `.pyinitgen.toml` file.
-- [ ] **Check Flag**: Implement a `--check` flag that will exit with a non-zero status code if any `__init__.py` files are missing, but will not create them. This is useful for CI environments.
+- [x] **Configuration File**: Add support for customizing the default exclusion list and other settings via a `pyproject.toml` or `.pyinitgen.toml` file.
+- [x] **Check Flag**: Implement a `--check` flag that will exit with a non-zero status code if any `__init__.py` files are missing, but will not create them. This is useful for CI environments.
 
 ---
 

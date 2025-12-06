@@ -46,7 +46,8 @@ def test_main_arguments(temp_dir):
                 dry_run=True,
                 verbose=False,
                 use_emoji=False,
-                init_content=""
+                init_content="",
+                check=False
             )
 
 def test_main_verbose(temp_dir):
@@ -61,7 +62,8 @@ def test_main_verbose(temp_dir):
                 dry_run=False,
                 verbose=True,
                 use_emoji=True,
-                init_content=""
+                init_content="",
+                check=False
             )
 
 def test_main_custom_content(temp_dir):
@@ -77,7 +79,8 @@ def test_main_custom_content(temp_dir):
                 dry_run=False,
                 verbose=False,
                 use_emoji=True,
-                init_content=content
+                init_content=content,
+                check=False
             )
 
 def test_create_inits_error_handling(temp_dir, caplog):
