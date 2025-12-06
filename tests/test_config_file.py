@@ -2,12 +2,15 @@ import pytest
 import os
 from pathlib import Path
 from pyinitgen.cli import create_inits
-from pyinitgen.config import EXCLUDE_DIRS
+
+# Tests for loading configuration from toml files.
+# Uses pyfakefs 'fs' fixture.
 
 def test_config_from_pyproject_toml(fs):
     """
     Test that excludes are read from pyproject.toml
     """
+    # Arrange
     # Create pyproject.toml with custom excludes
     fs.create_file(
         "pyproject.toml",
@@ -21,7 +24,7 @@ exclude_dirs = ["ignored_dir"]
     fs.create_dir("ignored_dir")
     fs.create_dir("normal_dir")
 
-    # Run create_inits
+    # Act
     create_inits(Path("."))
 
     # Assert ignored_dir does not have __init__.py
@@ -34,6 +37,7 @@ def test_config_from_pyinitgen_toml(fs):
     """
     Test that excludes are read from .pyinitgen.toml
     """
+    # Arrange
     # Create .pyinitgen.toml with custom excludes
     fs.create_file(
         ".pyinitgen.toml",
@@ -47,7 +51,7 @@ exclude_dirs = ["ignored_dir_2"]
     fs.create_dir("ignored_dir_2")
     fs.create_dir("normal_dir_2")
 
-    # Run create_inits
+    # Act
     create_inits(Path("."))
 
     # Assert ignored_dir_2 does not have __init__.py
