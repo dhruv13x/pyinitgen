@@ -6,7 +6,7 @@ import logging
 import os
 from pathlib import Path
 from .banner import print_logo
-from .config import EXCLUDE_DIRS, IGNORE_FILE_NAME
+from .config import EXCLUDE_DIRS, IGNORE_FILE_NAME, load_config
 from .ignores import load_ignore_patterns
 
 
@@ -16,12 +16,15 @@ def create_inits(
     verbose: bool = False,
     use_emoji: bool = True,
     init_content: str = "",
+    check: bool = False,
 ):
     created_count = 0
     scanned_dirs = 0
+    missing_count = 0
     
     user_excludes = load_ignore_patterns(base_dir)
-    all_excludes = EXCLUDE_DIRS.union(user_excludes)
+    config_excludes = load_config(base_dir)
+    all_excludes = EXCLUDE_DIRS.union(user_excludes).union(config_excludes)
 
     for root, dirs, files in os.walk(base_dir):
         # Filter out unwanted dirs
@@ -33,6 +36,12 @@ def create_inits(
 
         if "__init__.py" not in files:
             init_file = Path(root) / "__init__.py"
+
+            if check:
+                logging.error(f"Missing __init__.py in {root}")
+                missing_count += 1
+                continue
+
             if dry_run:
                 logging.info(f"[DRY-RUN] Would create {init_file}")
             else:
@@ -45,6 +54,15 @@ def create_inits(
                 except Exception as e:
                     logging.error(f"Failed to create {init_file}: {e}")
                     return 1, created_count, scanned_dirs
+
+    if check:
+        if missing_count > 0:
+            logging.error(f"Found {missing_count} missing __init__.py files.")
+            return 1, created_count, scanned_dirs
+        else:
+            checkmark = "✅ " if use_emoji else ""
+            logging.info(f"{checkmark}All directories have __init__.py files.")
+            return 0, created_count, scanned_dirs
 
     if dry_run:
         logging.info("Dry-run complete. No files created.")
@@ -88,6 +106,11 @@ def main():
         help="Content to write to new __init__.py files (default: empty file)",
     )
     parser.add_argument(
+        "--check",
+        action="store_true",
+        help="Check for missing __init__.py files without creating them",
+    )
+    parser.add_argument(
         "--version", action="version", version=f"%(prog)s 3.0.1", help="Show program's version number and exit"
     )
 
@@ -108,6 +131,7 @@ def main():
         verbose=args.verbose,
         use_emoji=not args.no_emoji,
         init_content=args.init_content,
+        check=args.check,
     )
     raise SystemExit(exit_code)
 
