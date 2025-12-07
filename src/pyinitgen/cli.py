@@ -111,7 +111,7 @@ def main():
         help="Check for missing __init__.py files without creating them",
     )
     parser.add_argument(
-        "--version", action="version", version=f"%(prog)s 3.0.1", help="Show program's version number and exit"
+        "--version", action="version", version=f"%(prog)s 4.0.0", help="Show program's version number and exit"
     )
 
     args = parser.parse_args()
