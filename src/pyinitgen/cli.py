@@ -6,7 +6,7 @@ import logging
 import os
 from pathlib import Path
 from .banner import print_logo
-from .config import EXCLUDE_DIRS, IGNORE_FILE_NAME, load_config
+from .config import EXCLUDE_DIRS, load_config
 from .ignores import load_ignore_patterns
 
 
@@ -111,7 +111,7 @@ def main():
         help="Check for missing __init__.py files without creating them",
     )
     parser.add_argument(
-        "--version", action="version", version=f"%(prog)s 4.0.0", help="Show program's version number and exit"
+        "--version", action="version", version="%(prog)s 4.0.0", help="Show program's version number and exit"
     )
 
     args = parser.parse_args()
