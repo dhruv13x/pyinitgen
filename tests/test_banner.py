@@ -1,6 +1,5 @@
 # tests/test_banner.py
 
-import pytest
 from pyinitgen.banner import lerp, blend, print_logo
 
 # Use the 'mocker' fixture from pytest-mock

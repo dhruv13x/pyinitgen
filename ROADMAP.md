@@ -1,61 +1,58 @@
-# 🗺️ pyinitgen Roadmap
+# Strategic ROADMAP.md
 
-A visionary, integration-oriented plan that categorizes features from **"Core Essentials"** to **"God Level"** ambition.
-
----
-
-## Phase 1: Foundation (Q1)
-
-**Focus**: Core functionality, stability, security, and basic usage.
-
-- [x] **Recursive Scan**: Walks the directory tree intelligently to find all Python modules.
-- [x] **Auto-creates `__init__.py`**: Creates `__init__.py` files only where they are missing.
-- [x] **Smart Exclusions**: Ignores common system and runtime directories by default.
-- [x] **Customized Ignores**: Supports a `.pyinitgenignore` file to add your own exclusion rules.
-- [x] **Custom Content**: Lets you write custom content to newly created `__init__.py` files.
-- [x] **Dry-Run Mode**: Preview which `__init__.py` files will be created without writing them.
-- [x] **Configuration File**: Add support for customizing the default exclusion list and other settings via a `pyproject.toml` or `.pyinitgen.toml` file.
-- [x] **Check Flag**: Implement a `--check` flag that will exit with a non-zero status code if any `__init__.py` files are missing, but will not create them. This is useful for CI environments.
+> **Goal**: Balance Innovation, Stability, and Debt.
+> **Status**: Living Document (V3.0)
 
 ---
 
-## Phase 2: The Standard (Q2)
+## 🏁 Phase 0: The Core (Stability & Debt)
+**Goal**: Solid foundation. Build a codebase that is easy to maintain and contribute to.
 
-**Focus**: Feature parity with top competitors, user experience improvements, and robust error handling.
-
-- [ ] **Watch Mode**: Implement a `--watch` mode to automatically create `__init__.py` files as new directories are created.
-- [ ] **Interactive Mode**: An interactive mode that prompts the user before creating each `__init__.py` file.
-- [ ] **Detailed Reporting**: Generate a report of all files created, and why they were created.
-- [ ] **Alias Configuration**: Allow users to define aliases for common configurations in their `pyproject.toml`.
-
----
-
-## Phase 3: The Ecosystem (Q3)
-
-**Focus**: Webhooks, API exposure, 3rd party plugins, SDK generation, and extensibility.
-
-- [ ] **Plugin Architecture**: Develop a plugin system to allow third-party developers to extend `pyinitgen`'s functionality. For example, a plugin could automatically add `__all__` to `__init__.py` files.
-- [ ] **IDE Integration**: Create plugins for popular IDEs like VS Code and PyCharm to run `pyinitgen` directly from the editor.
-- [ ] **Pre-commit Hook**: Create a pre-commit hook that automatically runs `pyinitgen` before each commit.
-- [ ] **GitHub Action**: Create a GitHub Action to run `pyinitgen` in CI/CD pipelines.
+- [ ] **Testing**: Coverage > 95% (Current: ~97%). `[Feat]` `[S]`
+- [ ] **CI/CD**: Linting, Type Checking (mypy), Pre-commit hooks. `[Debt]` `[S]`
+- [ ] **Documentation**: Comprehensive README with clear usage examples. `[Feat]` `[M]`
+- [ ] **Refactoring**: Pay down critical technical debt (unused imports, variables). `[Debt]` `[S]`
 
 ---
 
-## Phase 4: The Vision (GOD LEVEL) (Q4)
+## 🚀 Phase 1: The Standard (Feature Parity)
+**Goal**: Competitiveness. Ensure `pyinitgen` has all the features expected of a modern CLI tool.
+*Requires Phase 0*
 
-**Focus**: "Futuristic" features, AI integration, advanced automation, and industry-disrupting capabilities.
-
-- [ ] **AI-Powered `__init__.py`**: Use AI to automatically generate the content of `__init__.py` files based on the modules in the directory.
-- [ ] **Import Graph Analysis**: Analyze the import graph of a project to identify and fix circular dependencies and other import-related issues.
-- [ ] **Automated Refactoring**: Automatically refactor code to improve package structure and reduce coupling.
-- [ ] **Cross-Language Support**: Extend `pyinitgen` to support other languages that have a similar module system, like JavaScript/TypeScript.
+- [ ] **UX**: CLI improvements, rich error messages, progress bars. `[Feat]` `[M]`
+- [ ] **Config**: Robust settings management via `pyproject.toml` and `.pyinitgen.toml`. `[Feat]` `[M]`
+- [ ] **Performance**: optimize recursive scanning for large codebases. `[Feat]` `[L]`
+- [ ] **Watch Mode**: Automatically create `__init__.py` files as directories are created. `[Feat]` `[L]`
+- [ ] **Interactive Mode**: Prompt user before creating files. `[Feat]` `[M]`
+- [ ] **Detailed Reporting**: Generate reports of created files. `[Feat]` `[M]`
 
 ---
 
-## The Sandbox (OUT OF THE BOX / OPTIONAL)
+## 🔌 Phase 2: The Ecosystem (Integration)
+**Goal**: Interoperability. Make `pyinitgen` play well with others.
+*Requires Phase 1*
 
-**Focus**: Wild, creative, experimental ideas that set the project apart.
+- [ ] **API**: Expose core logic as a library (REST/GraphQL if applicable, or just clean Python API). `[Feat]` `[L]`
+- [ ] **Plugins**: Extension system (e.g., adding `__all__` automatically). `[Feat]` `[XL]`
+- [ ] **IDE Integration**: VS Code / PyCharm plugins. `[Feat]` `[XL]`
+- [ ] **GitHub Action**: Official action for CI pipelines. `[Feat]` `[M]`
+- [ ] **Pre-commit Hook**: Official hook for `pre-commit`. `[Feat]` `[S]`
 
-- [ ] **Gamification**: Add a "gamification" mode that rewards users for maintaining a clean and well-structured codebase.
-- [ ] **Visualizer**: Create a web-based visualizer that shows the package structure of a project and highlights areas for improvement.
-- [ ] **Voice Control**: "Hey `pyinitgen`, initialize my project."
+---
+
+## 🔮 Phase 3: The Vision (Innovation)
+**Goal**: Market Leader. Features that define the next generation of tooling.
+*Requires Phase 2*
+
+- [ ] **AI**: LLM Integration for generating `__init__.py` content. `[Feat]` `[XXL]`
+- [ ] **Cloud**: K8s/Docker integrations if applicable. `[Feat]` `[L]`
+- [ ] **Graph Analysis**: Analyze import graphs to fix circular dependencies. `[Feat]` `[XL]`
+- [ ] **Cross-Language**: Support for other languages with similar module systems. `[Feat]` `[XXL]`
+
+---
+
+## Legend
+- `[Debt]`: Technical Debt / Maintenance
+- `[Feat]`: New Feature
+- `[Bug]`: Bug Fix
+- `[S/M/L/XL]`: T-Shirt Size Estimate

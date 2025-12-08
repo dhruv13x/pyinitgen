@@ -1,4 +1,3 @@
-import pytest
 import os
 from pathlib import Path
 from pyinitgen.cli import create_inits

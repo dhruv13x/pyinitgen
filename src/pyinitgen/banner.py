@@ -5,7 +5,6 @@ from rich.text import Text
 import math
 import random
 import os
-import sys
 import colorsys
 
 console = Console()
@@ -110,16 +109,13 @@ def print_logo():
             idx = int(idx_env)
             if 0 <= idx < len(fixed_palettes):
                 palette = list(fixed_palettes[idx])
-                mode = f"fixed[{idx}]"
             else:
                 raise ValueError
         except Exception:
             # bad value -> fall through to procedural generation
             palette = None
-            mode = "procedural (bad env fallback)"
     else:
         palette = None
-        mode = "procedural"
 
     # If we didn't get a fixed palette, procedurally generate one (practically infinite variations)
     if palette is None:
@@ -162,8 +158,6 @@ def print_logo():
                 rr, gg, bb = colorsys.hsv_to_rgb(h, s, v)
                 new_palette.append((int(round(rr * 255)), int(round(gg * 255)), int(round(bb * 255))))
             palette = new_palette
-
-        mode = "procedural"
 
     # permute the palette slightly so gradients shift even when endpoints similar
     _sysrand.shuffle(palette)

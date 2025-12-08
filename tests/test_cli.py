@@ -1,6 +1,5 @@
 # tests/test_cli.py
 
-import os
 from pathlib import Path
 import pytest
 from pyinitgen.cli import create_inits
